@@ -144,7 +144,7 @@ fn main() {
 
     if !Path::new("info.toml").exists() {
         println!(
-            "{} must be run from the starklings directory",
+            "{} debe ejecutarse desde el directorio starklings",
             std::env::current_exe().unwrap().to_str().unwrap()
         );
         println!("Try `cd starklings/`!");
@@ -152,9 +152,9 @@ fn main() {
     }
 
     if !rustc_exists() {
-        println!("We cannot find `rustc`.");
-        println!("Try running `rustc --version` to diagnose your problem.");
-        println!("For instructions on how to install Rust, check the README.");
+        println!("No podemos encontrar `rustc`.");
+        println!("Pruebe a ejecutar `rustc --version` para diagnosticar su problema.");
+        println!("Para obtener instrucciones sobre cómo instalar Rust, consulte el README.");
         std::process::exit(1);
     }
 
@@ -179,9 +179,9 @@ fn main() {
                     .any(|f| e.name.contains(f) || fname.contains(f));
                 let status = if e.looks_done() {
                     exercises_done += 1;
-                    "Done"
+                    "Hecho"
                 } else {
-                    "Pending"
+                    "Pendiente"
                 };
                 let solve_cond = {
                     (e.looks_done() && subargs.solved)
@@ -213,7 +213,7 @@ fn main() {
             });
             let percentage_progress = exercises_done as f32 / exercises.len() as f32 * 100.0;
             println!(
-                "Progress: You completed {} / {} exercises ({:.1} %).",
+                "Progreso: Has completado {} / {} ejercicios ({:.1} %).",
                 exercises_done,
                 exercises.len(),
                 percentage_progress
@@ -254,18 +254,18 @@ fn main() {
             let mut project = RustAnalyzerProject::new();
             project
                 .get_sysroot_src()
-                .expect("Couldn't find toolchain path, do you have `rustc` installed?");
+                .expect("No se encuentra la ruta de la cadena de herramientas, ¿tiene instalado `rustc`?");
             project
                 .exercises_to_json()
-                .expect("Couldn't parse starklings exercises files");
+                .expect("No se pueden analizar los archivos de ejercicios de starklings");
 
             if project.crates.is_empty() {
-                println!("Failed find any exercises, make sure you're in the `starklings` folder");
+                println!("No se ha encontrado ningún ejercicio, asegúrate de que estás en la carpeta `starklings`");
             } else if project.write_to_disk().is_err() {
-                println!("Failed to write rust-project.json to disk for rust-analyzer");
+                println!("Error al escribir rust-project.json en disco para rust-analyzer");
             } else {
-                println!("Successfully generated rust-project.json");
-                println!("rust-analyzer will now parse exercises, restart your language server or editor")
+                println!("Generado con éxito rust-project.json");
+                println!("rust-analyzer analizará ahora los ejercicios, reinicie su servidor de idiomas o editor")
             }
         }
 
@@ -284,10 +284,10 @@ fn main() {
                 }
                 Ok(WatchStatus::Finished) => {
                     let emoji = Emoji("🎉", "★");
-                    println!("{emoji} All solutions compile! {emoji}");
+                    println!("{emoji} ¡Todas las soluciones compilan!{emoji}");
                 }
                 Ok(WatchStatus::Unfinished) => {
-                    println!("Solutions checking was stopped.");
+                    println!("Se detuvo la comprobación de soluciones.");
                 }
             }
         }
@@ -295,9 +295,9 @@ fn main() {
         Subcommands::Watch(_subargs) => match watch(&exercises) {
             Err(e) => {
                 println!(
-                    "Error: Could not watch your progress. Error message was {e:?}."
+                    "Error: No se pudo ver su progreso. El mensaje de error era {e:?}."
                 );
-                println!("Most likely you've run out of disk space or your 'inotify limit' has been reached.");
+                println!("Lo más probable es que te hayas quedado sin espacio en disco o que se haya alcanzado el `límite de inotify`.");
                 std::process::exit(1);
             }
             Ok(WatchStatus::Finished) => {
@@ -308,8 +308,8 @@ fn main() {
                 println!("\n{FINISH_LINE}\n");
             }
             Ok(WatchStatus::Unfinished) => {
-                println!("We hope you're enjoying learning about Rust!");
-                println!("If you want to continue working on the exercises at a later point, you can simply run `starklings watch` again");
+                println!("¡Esperamos que estés disfrutando aprendiendo sobre Rust!");
+                println!("Si quieres continuar trabajando en los ejercicios más adelante, puedes simplemente ejecutar `starklings watch` de nuevo");
             }
         },
     }
@@ -320,7 +320,7 @@ fn spawn_watch_shell(
     should_quit: Arc<AtomicBool>,
 ) {
     let failed_exercise_hint = Arc::clone(failed_exercise_hint);
-    println!("Welcome to watch mode! You can type 'help' to get an overview of the commands you can use here.");
+    println!("¡Bienvenido al modo watch! Puedes escribir 'help' para obtener una visión general de los comandos que puedes utilizar aquí.");
     thread::spawn(move || loop {
         let mut input = String::new();
         match io::stdin().read_line(&mut input) {
@@ -336,31 +336,31 @@ fn spawn_watch_shell(
                     should_quit.store(true, Ordering::SeqCst);
                     println!("Bye!");
                 } else if input.eq("help") {
-                    println!("Commands available to you in watch mode:");
-                    println!("  hint  - prints the current exercise's hint");
-                    println!("  clear - clears the screen");
-                    println!("  quit  - quits watch mode");
-                    println!("  help  - displays this help message");
+                    println!("Comandos disponibles en modo watch:");
+                    println!("  hint  - imprime la pista del ejercicio actual");
+                    println!("  clear - limpia la pantalla");
+                    println!("  quit  - quita modo watch");
+                    println!("  help  - muestra este mensaje de ayuda");
                     println!();
-                    println!("Watch mode automatically re-evaluates the current exercise");
-                    println!("when you edit a file's contents.")
+                    println!("El modo Watch reevalúa automáticamente el ejercicio en curso");
+                    println!("cuando edite el contenido de un archivo.")
                 } else {
                     println!("unknown command: {input}");
                 }
             }
-            Err(error) => println!("error reading command: {error}"),
+            Err(error) => println!("error leyendo comando: {error}"),
         }
     });
 }
 
 fn find_exercise<'a>(name: &str, exercises: &'a [Exercise]) -> &'a Exercise {
-    if name.eq("next") {
+    if name.eq("siguiente") {
         exercises
             .iter()
             .find(|e| !e.looks_done())
             .unwrap_or_else(|| {
-                println!("🎉 Congratulations! You have done all the exercises!");
-                println!("🔚 There are no more exercises to do next!");
+                println!("🎉 ¡Enhorabuena! ¡Has hecho todos los ejercicios!");
+                println!("🔚 ¡No hay más ejercicios que hacer a continuación!");
                 std::process::exit(1)
             })
     } else {
@@ -368,7 +368,7 @@ fn find_exercise<'a>(name: &str, exercises: &'a [Exercise]) -> &'a Exercise {
             .iter()
             .find(|e| e.name == name)
             .unwrap_or_else(|| {
-                println!("No exercise found for '{name}'!");
+                println!("No se encontró ningún ejercicio para '{name}'!");
                 std::process::exit(1)
             })
     }
@@ -450,31 +450,42 @@ fn rustc_exists() -> bool {
         .unwrap_or(false)
 }
 
-const DEFAULT_OUT: &str = r#"Thanks for installing starklings!
+const DEFAULT_OUT: &str = r#"Starklings - Un tutorial interactivo para aprender Cairo y Starknet
 
-Is this your first time? Don't worry, starklings is made for beginners! We are
-going to teach you a bunch of stuff about StarkNet and Cairo.
+       _             _    _ _
+      | |           | |  | (_)
+   ___| |_ __ _ _ __| | _| |_ _ __   __ _ ___
+  / __| __/ _` | '__| |/ / | | '_ \ / _` / __|
+  \__ \ || (_| | |  |   <| | | | | | (_| \__ \
+  |___/\__\__,_|_|  |_|\_\_|_|_| |_|\__, |___/
+                                     __/ |
+                                    |___/
 
-Here's how starklings works,
+¡Gracias por instalar starklings!
 
-1. To start starklings run `cargo run --bin starklings watch`
-2. It'll automatically start with the first exercise. Don't get confused by
-error message popping up as soon as you run starklings! This is part of the
-exercise that you're supposed to solve, so open the exercise file in an editor
-and start your detective work!
-3. If you're stuck on an exercise, there is a helpful hint you can view by
-typing `hint` (in watch mode), or running `cargo run --bin starklings hint
-exercise_name`.
-4. When you have solved the exercise successfully, Remove `// I AM NOT DONE`
-comment to move on to the next exercise.
-5. If an exercise doesn't make sense to you, please open an issue on GitHub!
+¿Es tu primera vez? ¡No te preocupes, starklings está hecho para principiantes! 
+Te enseñaremos un montón de cosas sobre StarkNet y Cairo.
+
+Así es como funciona starklings:
+
+1. Para comenzar starklings ejecuta `cargo run --bin starklings watch`
+2. Se iniciará automáticamente con el primer ejercicio. ¡No te confundas por 
+los mensajes de error que aparecen tan pronto como ejecutes starklings! Esto es
+parte del ejercicio que debes resolver, así que abre el archivo de ejercicio en 
+un editor y comienza tu trabajo de detective.
+3. Si estás atascado en un ejercicio, hay una pista útil que puedes ver 
+escribiendo `hint` (en modo watch), o ejecutando `cargo run --bin starklings hint
+ nombre_del_ejercicio`.
+4. Cuando hayas resuelto el ejercicio con éxito, elimina el comentario
+`// I AM NOT DONE` para pasar al siguiente ejercicio.
+5. Si un ejercicio no tiene sentido para ti, ¡por favor abre un problema en GitHub!
 (https://github.com/shramee/starklings-cairo1/issues/new).
 
-Got all that? Great! To get started, run `starklings watch` in order to get the
-first exercise. Make sure to have your editor open!"#;
+¿Todo claro? ¡Genial! Para comenzar, ejecuta `starklings watch` para obtener el 
+primer ejercicio. ¡Asegúrate de tener tu editor abierto!"#;
 
 const FINISH_LINE: &str = r#"+----------------------------------------------------+
-|          You made it to the finish line!          |
+|         ¡Has llegado a la meta!                    |
 +--------------------------  ------------------------+
 
                           
@@ -506,11 +517,11 @@ const FINISH_LINE: &str = r#"+--------------------------------------------------
                                                                                 
                                                                                 
 
-We hope you enjoyed learning about Cairo and Starknet!
-If you noticed any issues, please don't hesitate to report them to our repo.
+Esperamos que hayas disfrutado aprendiendo sobre Cairo y Starknet.
+Si has detectado algún problema, no dudes en notificarlo en nuestro repositorio.
 https://github.com/shramee/starklings-cairo1/"#;
 
-pub const WELCOME: &str = r#"starklings - An interactive tutorial to get started with Cairo and Starknet
+pub const WELCOME: &str = r#"Starklings - Un tutorial interactivo para aprender Cairo y Starknet
 
        _             _    _ _
       | |           | |  | (_)

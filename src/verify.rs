@@ -16,7 +16,7 @@ pub fn verify<'a>(
     let bar = ProgressBar::new(total as u64);
     bar.set_style(
         ProgressStyle::default_bar()
-            .template("Progress: [{bar:60.green/red}] {pos}/{len} {msg}")
+            .template("Progreso: [{bar:60.green/red}] {pos}/{len} {msg}")
             .progress_chars("#>-"),
     );
     bar.set_position(num_done as u64);
@@ -40,7 +40,7 @@ fn compile_and_run_interactively(exercise: &Exercise) -> Result<bool, ()> {
     let progress_bar = ProgressBar::new_spinner();
     progress_bar.enable_steady_tick(100);
 
-    progress_bar.set_message(format!("Running {exercise}..."));
+    progress_bar.set_message(format!("Ejecutando {exercise}..."));
 
     let run_state = compile_and_run_cairo(exercise, &progress_bar)?;
 
@@ -54,7 +54,7 @@ fn compile_and_test_interactively(exercise: &Exercise) -> Result<bool, ()> {
     let progress_bar = ProgressBar::new_spinner();
     progress_bar.enable_steady_tick(100);
 
-    progress_bar.set_message(format!("Testing {exercise}..."));
+    progress_bar.set_message(format!("Testeando {exercise}..."));
 
     let run_state = compile_and_test_cairo(exercise, &progress_bar)?;
 
@@ -74,7 +74,7 @@ fn compile_and_run_cairo<'a, 'b>(
     if let Some(error) = compilation_result.as_ref().err() {
         progress_bar.finish_and_clear();
         warn!(
-            "Compiling of {} failed! Please try again. Here's the output:",
+            "Compilación de {} ¡Ha fallado! Por favor, inténtelo de nuevo. Aquí está el resultado:",
             exercise
         );
         println!("{error}");
@@ -95,7 +95,7 @@ fn compile_and_test_cairo<'a, 'b>(
     if let Some(error) = compilation_result.as_ref().err() {
         progress_bar.finish_and_clear();
         warn!(
-            "Testing of {} failed! Please try again. Here's the output:",
+            "Testing de {} ¡Ha fallado! Por favor, inténtelo de nuevo. Aquí está el resultado:",
             exercise
         );
         println!("{error}");
@@ -112,18 +112,18 @@ fn prompt_for_completion(exercise: &Exercise, prompt_output: Option<String>) -> 
     };
 
     match exercise.mode {
-        Mode::Compile => success!("Successfully ran {}!", exercise),
-        Mode::Test => success!("Successfully tested {}!", exercise),
+        Mode::Compile => success!("Ejecutado con éxito {}!", exercise),
+        Mode::Test => success!("Testeado con éxito {}!", exercise),
         // Mode::Clippy => success!("Successfully compiled {}!", exercise),
     }
 
     let no_emoji = env::var("NO_EMOJI").is_ok();
 
-    let _clippy_success_msg = "The code is compiling, and Clippy is happy!";
+    let _clippy_success_msg = "¡El código está compilando y Clippy está contento!";
 
     let success_msg = match exercise.mode {
-        Mode::Compile => "The code is compiling!",
-        Mode::Test => "The code is compiling, and the tests pass!",
+        Mode::Compile => "¡El código se está compilando!",
+        Mode::Test => "El código se está compilando, ¡y los test pasan!",
         // Mode::Clippy => clippy_success_msg,
     };
 
@@ -143,9 +143,9 @@ fn prompt_for_completion(exercise: &Exercise, prompt_output: Option<String>) -> 
         println!();
     }
 
-    println!("You can keep working on this exercise,");
+    println!("Puedes seguir trabajando en este ejercicio,");
     println!(
-        "or jump into the next one by removing the {} comment:",
+        "o saltar al siguiente eliminando el comentario {}:",
         style("`I AM NOT DONE`").bold()
     );
     println!();

@@ -73,7 +73,7 @@ pub fn run_cairo_program(args: &Args) -> anyhow::Result<String> {
         .with_context(|| "Failed to run the function.")?;
     match result.value {
         cairo_lang_runner::RunResultValue::Success(values) => ret_string
-            .push_str(format!("Run completed successfully, returning {values:?}").as_str()),
+            .push_str(format!("Ejecución completada con éxito, devolviendo {values:?}").as_str()),
         cairo_lang_runner::RunResultValue::Panic(values) => {
             ret_string.push_str(format!("Run panicked with err values: {values:?}").as_str());
         }
