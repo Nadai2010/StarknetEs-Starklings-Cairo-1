@@ -1,6 +1,6 @@
 # STARKLINGS
 
-### An interactive tutorial to get you up and running with Cairo and Starknet
+### Un tutorial interactivo para ponerte en marcha con Cairo y Starknet
 
 <p align="right">
 <a href="https://discord.gg/onlydust">
@@ -13,18 +13,18 @@
 
 ---
 
-## Setup and run
+## Instalación y ejecución
 
-Make sure you have Rust and Cargo installed with the `default` toolchain.  
-With rustup `curl https://sh.rustup.rs -sSf | sh -s`
+Asegúrate de que tienes Rust y Cargo instalados con la cadena de herramientas `default`.  
+Con rustup `curl https://sh.rustup.rs -sSf | sh -s`
 
-1. Clone the repo and go in the directory,  
+1. Clona el repositorio y entra en el directorio,  
    `git clone https://github.com/shramee/starklings-cairo1.git && cd starklings-cairo1`.
-2. Run `cargo run --bin starklings`, this might take a while the first time.
-3. You should see this intro message, run `cargo run --bin starklings watch` when you are ready!
+2. Ejecuta `cargo run --bin starklings`, esto puede tardar un poco la primera vez.
+3. Deberías ver este mensaje de introducción, ¡ejecuta `cargo run --bin starklings watch` cuando estés listo!
 
 ```
-starklings - An interactive tutorial to get started with Cairo and Starknet
+Starklings - Un tutorial interactivo para aprender Cairo y Starknet
 
        _             _    _ _
       | |           | |  | (_)
@@ -35,63 +35,63 @@ starklings - An interactive tutorial to get started with Cairo and Starknet
                                      __/ |
                                     |___/
 
-Thanks for installing starklings!
+¡Gracias por instalar starklings!
 
-Is this your first time? Don't worry, starklings is made for beginners! We are
-going to teach you a bunch of stuff about StarkNet and Cairo.
+¿Es tu primera vez? ¡No te preocupes, starklings está hecho para principiantes! 
+Te enseñaremos un montón de cosas sobre StarkNet y Cairo.
 
-Here's how starklings works,
+Así es como funciona starklings:
 
-1. To start starklings run `cargo run --bin starklings watch`
-2. It'll automatically start with the first exercise. Don't get confused by
-error message popping up as soon as you run starklings! This is part of the
-exercise that you're supposed to solve, so open the exercise file in an editor
-and start your detective work!
-3. If you're stuck on an exercise, there is a helpful hint you can view by
-typing `hint` (in watch mode), or running `cargo run --bin starklings hint
-exercise_name`.
-4. When you have solved the exercise successfully, Remove `// I AM NOT DONE`
-comment to move on to the next exercise.
-5. If an exercise doesn't make sense to you, please open an issue on GitHub!
+1. Para comenzar starklings ejecuta `cargo run --bin starklings watch`
+2. Se iniciará automáticamente con el primer ejercicio. ¡No te confundas por 
+los mensajes de error que aparecen tan pronto como ejecutes starklings! Esto es
+parte del ejercicio que debes resolver, así que abre el archivo de ejercicio en 
+un editor y comienza tu trabajo de detective.
+3. Si estás atascado en un ejercicio, hay una pista útil que puedes ver 
+escribiendo `hint` (en modo watch), o ejecutando `cargo run --bin starklings hint
+ nombre_del_ejercicio`.
+4. Cuando hayas resuelto el ejercicio con éxito, elimina el comentario
+`// I AM NOT DONE` para pasar al siguiente ejercicio.
+5. Si un ejercicio no tiene sentido para ti, ¡por favor abre un problema en GitHub!
 (https://github.com/shramee/starklings-cairo1/issues/new).
 
-Got all that? Great! To get started, run `starklings watch` in order to get the
-first exercise. Make sure to have your editor open!
+¿Todo claro? ¡Genial! Para comenzar, ejecuta `starklings watch` para obtener el 
+primer ejercicio. ¡Asegúrate de tener tu editor abierto!
 ```
 
-## Inspiration
+## Inspiración
 
 -   [Rustlings](https://github.com/rust-lang/rustlings), starklings is forked from Rustlings. Thanks to all the original [authors and contributors](https://github.com/rust-lang/rustlings)
 
 ## Testing
 
-#### For Cairo related tests
+#### Para los tests relacionados con Cairo
 
 ```
 cargo test cairo
 ```
 
-#### For all tests
+#### Para todos los test
 
 ```
 cargo test
 ```
 
-## Contributing
+## Contribución
 
-Thanks for your interest in the project. You can fork the repo, create a branch with a descriptive name (maybe the issue number and a word or two to describe it) and submit a pull request to the `dev` branch of this repo.
+Gracias por tu interés en el proyecto. Puedes hacer un fork del repositorio, crear una rama con un nombre descriptivo (quizás el número de incidencia y una o dos palabras para describirla) y enviar un pull request a la rama `dev` de este repositorio.
 
-### Branches
+### Branches o Ramas
 
-We have 2 active branches,
+Tenemos 2 ramas activas,
 
-1. `dev` This is where new development happens. All pull requests should be made to this branch.
-2. `main` This is for cloning and running starklings. `dev` is merged into `main` after a second set of testing.
+1. `dev` Aquí es donde ocurre el nuevo desarrollo. Todos los pull requests deben hacerse a esta rama.
+2. `main` Esta es para clonar y ejecutar starklings. `dev` se fusiona en `main` después de un segundo conjunto de pruebas.
 
-### Adding new exercises
+### Añadir nuevos ejercicios
 
-1. New exercises can be added in `./exercises` directory.
-2. Insert information about the exercise in `./info.toml` file. For example
+1. Los nuevos ejercicios se pueden añadir en el directorio `./exercises`.
+2. Inserte información sobre el ejercicio en el archivo `./info.toml`. Por ejemplo:
     ```toml
     [[exercises]]
     name = "new_exercise"
@@ -99,19 +99,19 @@ We have 2 active branches,
     mode = "compile" # or "test"
     hint = """"""
     ```
-3. Check that the [tests](#testing) pass.
-4. Send your PR to `dev` branch of the repo!
+3. Comprueba que los [test](#testing) pasan.
+4. Envía tu PR a la rama `dev` del repositorio.
 
-### Updating Rust logic/Cairo version
+### Actualización de la lógica de Rust/versión de Cairo
 
-1. [Test](#testing) your changes.
-2. Make sure you have solutions to all the exercises in `./solutions` directory.
-3. Run `cargo run --bin starklings compile_solutions` to confirm all exercise solutions still compile.
-4. Make a pull requests to `dev` branch of the repo!
+1. [Test](#testing) de tus cambios.
+2. Asegúrate de tener las soluciones a todos los ejercicios en el directorio `./solutions`.
+3. Ejecute `cargo run --bin starklings compile_solutions` para confirmar que todas las soluciones de los ejercicios siguen compilando.
+4. Haz un pull request a la rama `dev` del repositorio.
 
-### Merging `dev` into `main` (maintainers)
+### Fusión de `dev` en `main` (mantenedores)
 
-1. Create a PR from `dev` branch to `master` branch.
-2. Run all tests, and check solutions with `cargo run --bin starklings compile_solutions`.
-3. Check to make sure no new changes were merged into `dev` since the PR was created.
-4. If everything makes sense, merge away!
+1. Crea un PR de la rama `dev` a la rama `master`.
+2. Ejecutar todas las pruebas, y comprobar las soluciones con `cargo run --bin starklings compile_solutions`.
+3. Compruebe que no se han fusionado nuevos cambios en `dev` desde que se creó el PR.
+4. Si todo tiene sentido, ¡fusione!
